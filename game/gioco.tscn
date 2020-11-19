@@ -1,0 +1,44 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Scenes/Navicella.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/TerrenoBasso.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/sferanebulosa.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/proiettile.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Cielo.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scripts/sferanebulosa.gd" type="Script" id=6]
+[ext_resource path="res://models/luna.escn" type="PackedScene" id=7]
+[ext_resource path="res://models/emmensteroide.escn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/naveNemica.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/HUD.tscn" type="PackedScene" id=10]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="HUD" parent="." instance=ExtResource( 10 )]
+
+[node name="Cielo" parent="." instance=ExtResource( 5 )]
+
+[node name="Navicella" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 85, 0 )
+
+[node name="Terra" parent="." instance=ExtResource( 2 )]
+
+[node name="Proiettile" parent="." instance=ExtResource( 4 )]
+visible = false
+
+[node name="Atmosfera" parent="." instance=ExtResource( 3 )]
+script = ExtResource( 6 )
+rotVel = 0.025
+distanzaAtmosfera = 200
+dimensioneTerra = 100
+distanzaAvvicinamento = 350
+minHNb = 120
+
+[node name="luna" parent="." instance=ExtResource( 7 )]
+transform = Transform( 0.707107, -0.707107, 0, -1.15202e-07, -1.15202e-07, -1, 0.707107, 0.707107, -1.62921e-07, 700, 0, -700 )
+
+[node name="emmensteroide" parent="." instance=ExtResource( 8 )]
+transform = Transform( 0.379472, 0, -0.925203, 0, 1, 0, 0.925203, 0, 0.379472, 273.418, 0, -284.475 )
+
+[node name="KinematicBody" parent="." instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 178.124, 22.1573 )
+acc = Vector3( 0, 0, 0.001 )

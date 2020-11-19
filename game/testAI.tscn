@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://droneBersaglio.gd" type="Script" id=1]
+[ext_resource path="res://mouseCamera.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/naveNemica.tscn" type="PackedScene" id=3]
+
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_transparent = true
+albedo_color = Color( 0.0470588, 0.329412, 0.0156863, 0.717647 )
+
+[sub_resource type="PlaneMesh" id=2]
+material = SubResource( 1 )
+
+[sub_resource type="SphereShape" id=3]
+
+[sub_resource type="SpatialMaterial" id=4]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="SphereMesh" id=5]
+material = SubResource( 4 )
+
+[node name="Spatial" type="Spatial"]
+
+[node name="piano" type="MeshInstance" parent="."]
+transform = Transform( 125.544, 0, -479.295, 0, 1, 0, 479.295, 0, 125.544, -0.236855, 0.835454, 0.0614243 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.358873, 0.933386, 0, -0.933386, 0.358873, 0, 12.9255, 39.2427 )
+shadow_enabled = true
+
+[node name="bersaglioMobile2" type="KinematicBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.152828, 0, -2.52558 )
+collision_mask = 0
+script = ExtResource( 1 )
+acc = Vector3( 0.005, 0, 0 )
+maxTimer = 5
+
+[node name="CollisionShape" type="CollisionShape" parent="bersaglioMobile2"]
+shape = SubResource( 3 )
+
+[node name="mesh" type="MeshInstance" parent="bersaglioMobile2"]
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="KinematicBody" parent="." instance=ExtResource( 3 )]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -25.4868, 0, 0 )
+vel = Vector3( 0, 0, -0.001 )
+acc = Vector3( 0, 0, -0.001 )
+
+[node name="Camera" type="Camera" parent="KinematicBody"]
+transform = Transform( 0.999003, 0.00266808, -0.0445697, 0.0101737, 0.958352, 0.285407, 0.043475, -0.285576, 0.957369, -0.173367, 4.19081, 9.65913 )
+far = 1000.0
+script = ExtResource( 2 )

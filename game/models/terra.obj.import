@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/terra.obj-60ed762276b1f0725250017cd7faabcb.mesh"
+
+[deps]
+
+files=[ "res://.import/terra.obj-60ed762276b1f0725250017cd7faabcb.mesh" ]
+
+source_file="res://models/terra.obj"
+dest_files=[ "res://.import/terra.obj-60ed762276b1f0725250017cd7faabcb.mesh", "res://.import/terra.obj-60ed762276b1f0725250017cd7faabcb.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

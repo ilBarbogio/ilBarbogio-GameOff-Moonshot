@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=2]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_transparent = true
+params_blend_mode = 1
+albedo_color = Color( 1, 1, 1, 0.694118 )
+
+[sub_resource type="PlaneMesh" id=2]
+material = SubResource( 1 )
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_transparent = true
+params_blend_mode = 1
+params_cull_mode = 2
+albedo_color = Color( 1, 1, 1, 0.741176 )
+
+[node name="Gruppo" type="Spatial"]
+transform = Transform( 3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 0 )
+
+[node name="q1" type="MeshInstance" parent="."]
+transform = Transform( 1.29445, 0, 0, 0, 1, 0, 0, 0, 1.29445, -1.08404, 3.8147e-07, -2.73181 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[node name="q2" type="MeshInstance" parent="."]
+transform = Transform( 1.33063, 0, 0, 0, 1, 0, 0, 0, 1.33063, -1.79291, 3.8147e-07, 1.07301 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[node name="q3" type="MeshInstance" parent="."]
+transform = Transform( 1.76324, 0, 0, 0, 1, 0, 0, 0, 1.76324, 0.586996, -3.8147e-07, -0.680483 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[node name="q4" type="MeshInstance" parent="."]
+transform = Transform( 1.49913, 0, 0, 0, 1, 0, 0, 0, 1.49913, 1.5224, 0, 1.38602 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[node name="q5" type="MeshInstance" parent="."]
+transform = Transform( 1.11843, 0, 0, 0, 1, 0, 0, 0, 1.11843, -0.434454, 0, 3.05015 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
