@@ -5,9 +5,9 @@ onready var testo=get_node("PanelContainer/CenterContainer/VBoxContainer/Label")
 
 func _ready():
 	if director.risultato:
-		testo.text="Hai vinto!"
+		testo.text="YOU WIN\underwelming, isn't it?"
 	else:
-		testo.text="Hai perso"
+		testo.text="YOU LOSE\underwelming, isn't it?"
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
