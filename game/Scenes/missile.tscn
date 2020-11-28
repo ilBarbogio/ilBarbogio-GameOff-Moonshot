@@ -1,0 +1,64 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://scripts/missile.gd" type="Script" id=1]
+[ext_resource path="res://models/razzorosso.tscn" type="PackedScene" id=2]
+[ext_resource path="res://models/razzoblu.tscn" type="PackedScene" id=3]
+[ext_resource path="res://models/razzoverde.tscn" type="PackedScene" id=4]
+[ext_resource path="res://models/razzogiallo.tscn" type="PackedScene" id=5]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 0.187279, 0.178338, 0.853212 )
+
+[sub_resource type="SphereShape" id=2]
+radius = 6.0
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_transparent = true
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id=4]
+material = SubResource( 3 )
+radius = 0.2
+height = 0.4
+
+[sub_resource type="Gradient" id=5]
+colors = PoolColorArray( 1, 0.773438, 0, 1, 1, 1, 1, 0.317647 )
+
+[node name="missile" type="KinematicBody"]
+collision_layer = 0
+collision_mask = 30
+script = ExtResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="Area" type="Area" parent="."]
+monitorable = false
+collision_layer = 0
+collision_mask = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+shape = SubResource( 2 )
+
+[node name="CPUParticles" type="CPUParticles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.13884 )
+amount = 16
+local_coords = false
+mesh = SubResource( 4 )
+direction = Vector3( 0, 0, 1 )
+spread = 20.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 2.0
+color_ramp = SubResource( 5 )
+
+[node name="razzoblu" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.890338, 0, 0, 0 )
+
+[node name="razzorosso" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.890338, 0, 0, 0 )
+
+[node name="razzoverde" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.890338, 0, 0, 0 )
+
+[node name="razzogiallo" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.890338, 0, 0, 0 )

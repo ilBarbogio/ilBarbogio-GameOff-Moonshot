@@ -1,4 +1,6 @@
-extends WorldEnvironment
+extends Node
+
+onready var director=get_node("/root/Director")
 
 var coloreSoleTerra=Color(1,1,0,1)
 var curvaSoleTerra=.05
@@ -13,30 +15,44 @@ var coloreCieloSpazio=Color(0.01,0.01,0.01,1)
 var coloreOrizzonteSpazio=Color(.05,.05,.05,1)
 var coloreFondoSpazio=Color(0,0,0,1)
 
-export var distanzaAtmosfera=500
-onready var navicella=get_node("../../Navicella")
+onready var cielo=get_node("WorldEnvironment").environment.background_sky
+
+var rTerra
+var dAtmEstTerra
+var dAtmConTerra
+var dAvvTerra
+var navicella
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	environment.background_sky.sun_color=coloreSoleTerra
-	environment.background_sky.sun_curve=curvaSoleTerra
-	environment.background_sky.sun_energy=energiaSoleTerra
-	environment.background_sky.sky_top_color=coloreCieloTerra
-	environment.background_sky.sky_horizon_color=coloreOrizzonteTerra
-	environment.background_sky.ground_horizon_color=coloreOrizzonteTerra
-	environment.background_sky.ground_bottom_color=coloreFondoTerra
+	#recupero dal director
+	rTerra=director.raggioTerra
+	dAtmEstTerra=director.hAtmosferaEstesaTerra
+	dAtmConTerra=director.hAtmosferaContrattaTerra
+	dAvvTerra=director.distanzaAvvicinamentoTerra
+	#setto valori iniziali colore
+	setCieloTerra()
 
 func _process(_delta):
-	var quota=navicella.global_transform.origin.length()
-	var ratio=quota/distanzaAtmosfera
-	if ratio<=1:
-		environment.background_sky.sun_color=coloreSoleTerra.linear_interpolate(coloreSoleSpazio,ratio)
-		environment.background_sky.sun_curve=curvaSoleTerra*(1-ratio)+curvaSoleSpazio*ratio
-		environment.background_sky.sun_energy=energiaSoleTerra*(1-ratio)+energiaSoleSpazio*ratio
-		environment.background_sky.sky_top_color=coloreCieloTerra.linear_interpolate(coloreCieloSpazio,ratio)
-		environment.background_sky.sky_horizon_color=coloreOrizzonteTerra.linear_interpolate(coloreOrizzonteSpazio,ratio)
-		environment.background_sky.ground_horizon_color=coloreOrizzonteTerra.linear_interpolate(coloreOrizzonteSpazio,ratio)
-		environment.background_sky.ground_bottom_color=coloreFondoTerra.linear_interpolate(coloreFondoSpazio,ratio)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+	if navicella==null:
+		navicella=instance_from_id(director.getPlayerId())
+	else:
+		var quota=navicella.global_transform.origin.length()
+		var ratio=(quota-rTerra)/(dAtmEstTerra-rTerra)
+		if ratio<1:
+			#colori cielo
+			cielo.sun_color=coloreSoleTerra.linear_interpolate(coloreSoleSpazio,ratio)
+			cielo.sun_curve=curvaSoleTerra*(1-ratio)+curvaSoleSpazio*ratio
+			cielo.sun_energy=energiaSoleTerra*(1-ratio)+energiaSoleSpazio*ratio
+			cielo.sky_top_color=coloreCieloTerra.linear_interpolate(coloreCieloSpazio,ratio)
+			cielo.sky_horizon_color=coloreOrizzonteTerra.linear_interpolate(coloreOrizzonteSpazio,ratio)
+			cielo.ground_horizon_color=coloreOrizzonteTerra.linear_interpolate(coloreOrizzonteSpazio,ratio)
+			cielo.ground_bottom_color=coloreFondoTerra.linear_interpolate(coloreFondoSpazio,ratio)
+			
+func setCieloTerra():
+	cielo.sun_color=coloreSoleTerra
+	cielo.sun_curve=curvaSoleTerra
+	cielo.sun_energy=energiaSoleTerra
+	cielo.sky_top_color=coloreCieloTerra
+	cielo.sky_horizon_color=coloreOrizzonteTerra
+	cielo.ground_horizon_color=coloreOrizzonteTerra
+	cielo.ground_bottom_color=coloreFondoTerra

@@ -1,15 +1,19 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scenes/Navicella.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/TerrenoBasso.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/sferanebulosa.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scenes/proiettile.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/mina.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Cielo.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scripts/sferanebulosa.gd" type="Script" id=6]
-[ext_resource path="res://models/luna.escn" type="PackedScene" id=7]
-[ext_resource path="res://models/emmensteroide.escn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Asteroide1.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/Torretta.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/naveNemica.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/HUD.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scenes/Asteroide3.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/Asteroide2.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Scenes/Luna.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Scenes/Radar.tscn" type="PackedScene" id=14]
 
 [node name="Spatial" type="Spatial"]
 
@@ -17,28 +21,266 @@
 
 [node name="Cielo" parent="." instance=ExtResource( 5 )]
 
-[node name="Navicella" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 85, 0 )
+[node name="Navicella" parent="." groups=[
+"player",
+] instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 85, 0 )
 
-[node name="Terra" parent="." instance=ExtResource( 2 )]
+[node name="Terra" parent="." groups=[
+"terra",
+] instance=ExtResource( 2 )]
 
-[node name="Proiettile" parent="." instance=ExtResource( 4 )]
-visible = false
-
-[node name="Atmosfera" parent="." instance=ExtResource( 3 )]
+[node name="Atmosfera" parent="Terra" instance=ExtResource( 3 )]
 script = ExtResource( 6 )
 rotVel = 0.025
-distanzaAtmosfera = 200
-dimensioneTerra = 100
-distanzaAvvicinamento = 350
 minHNb = 120
 
-[node name="luna" parent="." instance=ExtResource( 7 )]
-transform = Transform( 0.707107, -0.707107, 0, -1.15202e-07, -1.15202e-07, -1, 0.707107, 0.707107, -1.62921e-07, 700, 0, -700 )
+[node name="Torretta" parent="." groups=[
+"nemici",
+] instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 88.9521, -139.083 )
 
-[node name="emmensteroide" parent="." instance=ExtResource( 8 )]
-transform = Transform( 0.379472, 0, -0.925203, 0, 1, 0, 0.925203, 0, 0.379472, 273.418, 0, -284.475 )
+[node name="NaveNemica7" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( -0.943449, 0, -0.331519, 0, 1, 0, 0.331519, 0, -0.943449, -379.812, -258.68, 252.27 )
+acc = Vector3( 0, 0, 0 )
 
-[node name="KinematicBody" parent="." instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 178.124, 22.1573 )
-acc = Vector3( 0, 0, 0.001 )
+[node name="NaveNemica8" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( 0.607972, 0, -0.793959, 0, 1, 0, 0.793959, 0, 0.607972, -396.385, -327.832, 204.995 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="NaveNemica9" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( 0.240601, 0, -0.970624, 0, 1, 0, 0.970624, 0, 0.240601, -329.085, -327.832, 298.441 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="Mina7" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.240601, 0, -0.970624, 0, 1, 0, 0.970624, 0, 0.240601, -330.242, -327.932, 255.458 )
+
+[node name="Mina8" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.240601, 0, -0.970624, 0, 1, 0, 0.970624, 0, 0.240601, -330.242, -327.932, 190.27 )
+
+[node name="Mina9" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.240601, 0, -0.970624, 0, 1, 0, 0.970624, 0, 0.240601, -419.402, -282.444, 255.458 )
+
+[node name="AsteroideP1" parent="." groups=[
+"asteroidi",
+] instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -364.531, -301.248, 235.473 )
+
+[node name="NaveNemica" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( 0.0947858, 0, -0.995498, 0, 1, 0, 0.995498, 0, 0.0947858, -346.735, -152.914, -295.939 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="NaveNemica2" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( 0.916914, 0, 0.399085, 0, 1, 0, -0.399085, 0, 0.916914, -363.308, -222.065, -343.214 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="NaveNemica3" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -296.008, -222.065, -249.768 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="Mina" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -297.165, -222.166, -292.751 )
+
+[node name="Mina2" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -297.165, -222.166, -357.94 )
+
+[node name="Mina3" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -386.325, -176.678, -292.751 )
+
+[node name="AsteroideP2" parent="." groups=[
+"asteroidi",
+] instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -333.975, -210.742, -286.044 )
+
+[node name="NaveNemica4" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( 0.0947858, 0.92559, -0.366467, 0, 0.368125, 0.929776, 0.995498, -0.0881296, 0.034893, 219.195, 353.229, -110.587 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="NaveNemica5" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( 0.400445, 0, 0.916321, 0, 1, 0, -0.916321, 0, 0.400445, 264.29, 347.822, -143.412 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="NaveNemica6" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( 0.899878, -0.436142, 0, 0.436142, 0.899878, 0, 0, 0, 1, 242.385, 309.195, -133.878 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="Mina4" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 236.455, 372.879, -133.878 )
+
+[node name="Mina5" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 242.385, 332.947, -152.064 )
+
+[node name="Mina6" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 242.385, 332.947, -133.878 )
+
+[node name="AsteroideP3" parent="." groups=[
+"asteroidi",
+] instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 242.385, 332.947, -133.878 )
+
+[node name="NaveNemica10" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( -0.338393, 0, -0.941005, 0, 1, 0, 0.941005, 0, -0.338393, 786.15, 217.616, -53.8333 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="NaveNemica11" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( 0.361491, -0.48883, -0.793959, 0.804033, 0.594584, 4.1682e-08, 0.472075, -0.638369, 0.607972, 740.848, 188.714, -134.372 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="NaveNemica13" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( 0.607972, 0.615318, -0.501751, 0, 0.631962, 0.775, 0.793959, -0.471178, 0.384215, 796.878, 150.881, -79.4835 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="NaveNemica12" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( 0.240601, -0.425174, -0.872547, 0, 0.898955, -0.438042, 0.970624, 0.105393, 0.216289, 718.149, 188.714, -79.9263 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="Mina12" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.240601, 0, -0.970624, 0, 1, 0, 0.970624, 0, 0.240601, 791.015, 188.714, -97.9885 )
+
+[node name="AsteroideE1" parent="." groups=[
+"asteroidi",
+] instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 772.268, 188.714, -93.3414 )
+livello = 1
+
+[node name="NaveNemica14" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( -0.943449, 0.264787, -0.199481, 0, 0.601717, 0.798709, 0.331519, 0.753541, -0.567689, -698.823, 15.1756, -312.138 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="NaveNemica15" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( 0.0992402, -0.219181, -0.970624, 0.910972, 0.412469, -1.29335e-08, 0.400352, -0.884211, 0.240601, -747.317, -50.0513, -295.098 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="Mina13" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.240601, 0, -0.970624, 0, 1, 0, 0.970624, 0, 0.240601, -808.42, -14.72, -309.054 )
+
+[node name="Mina15" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.240601, 0, -0.970624, 0, 1, 0, 0.970624, 0, 0.240601, -734.039, -14.72, -241.531 )
+
+[node name="AsteroideE2" parent="." groups=[
+"asteroidi",
+] instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -747.317, -14.72, -295.098 )
+livello = 1
+
+[node name="NaveNemica16" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( -0.270533, 0, -0.962711, 0, 1, 0, 0.962711, 0, -0.270533, 420.525, -15.2916, -671.091 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="NaveNemica17" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( 0.949977, 0, 0.312318, 0, 1, 0, -0.312318, 0, 0.949977, 480.167, -66.694, -593.204 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="NaveNemica19" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( 0.469396, -0.38639, -0.793959, 0.635539, 0.772068, -2.30094e-08, 0.61299, -0.504592, 0.607972, 374.102, -66.694, -731.716 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="NaveNemica18" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( 0.114812, -0.21144, -0.970624, 0.8788, 0.477189, 7.11068e-09, 0.463172, -0.852985, 0.240601, 472.143, -85.3068, -683.886 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="AsteroideE3" parent="." groups=[
+"asteroidi",
+] instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 420.525, -66.694, -671.091 )
+livello = 1
+
+[node name="NaveNemica20" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( -0.196117, 0, -0.98058, 0, 1, 0, 0.98058, 0, -0.196117, 487.843, -293.988, 414.124 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="NaveNemica21" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( 0.607972, -0.762391, -0.221654, 0, 0.279175, -0.96024, 0.793959, 0.583799, 0.169731, 515.636, -310.817, 459.146 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="NaveNemica22" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( 0.152011, -0.186497, -0.970624, 0.775132, 0.631799, -9.41454e-09, 0.61324, -0.752362, 0.240601, 465.07, -324.706, 437.301 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="Mina19" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.240601, 0, -0.970624, 0, 1, 0, 0.970624, 0, 0.240601, 512.161, -305.114, 427.272 )
+
+[node name="AsteroideG1" parent="." groups=[
+"asteroidi",
+] instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 493.51, -309.522, 430.251 )
+livello = 2
+
+[node name="NaveNemica23" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( -0.942758, 0.0360853, -0.331519, 0.0382483, 0.999268, 1.17853e-08, 0.331276, -0.01268, -0.943449, 169.483, -133.447, -849.858 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="NaveNemica24" parent="." groups=[
+"nemici",
+] instance=ExtResource( 9 )]
+transform = Transform( 0.999987, 0, -0.0051311, 0, 1, 0, 0.0051311, 0, 0.999987, 209.391, -100.381, -882.181 )
+acc = Vector3( 0, 0, 0 )
+
+[node name="Mina22" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.240601, 0, -0.970624, 0, 1, 0, 0.970624, 0, 0.240601, 185.638, -140.853, -840.439 )
+
+[node name="Mina23" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.240601, 0, -0.970624, 0, 1, 0, 0.970624, 0, 0.240601, 172.692, -131.746, -876.066 )
+
+[node name="Mina24" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.240601, 0, -0.970624, 0, 1, 0, 0.970624, 0, 0.240601, 217.402, -110.898, -851.067 )
+
+[node name="AsteroideG2" parent="." groups=[
+"asteroidi",
+] instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 194.182, -122.47, -858.537 )
+livello = 2
+
+[node name="Luna" parent="." groups=[
+"luna",
+] instance=ExtResource( 13 )]
+transform = Transform( 0.422144, 0.906529, 0, -0.906529, 0.422144, 0, 0, 0, 1, -1000, 0, 0 )
+
+[node name="Radar" parent="." instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6000, 0, 0 )

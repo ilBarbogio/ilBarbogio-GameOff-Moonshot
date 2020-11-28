@@ -10,6 +10,12 @@ var damp=.75
 
 onready var boccaDaFuoco=get_node("boccaDaFuoco")
 onready var Proiettile=preload("res://Scenes/proiettile.tscn")
+onready var burst=preload("res://Scenes/MediumBurst.tscn")
+
+export var life=20
+export var damage=1
+export var detectionRange=50
+
 
 export var vel=Vector3(0,0,0)
 export var acc=Vector3(0,0,0)
@@ -17,19 +23,21 @@ export var acc=Vector3(0,0,0)
 var rng=RandomNumberGenerator.new()
 
 #BEHAVIOURS
-#[wander,seek,avoid,roll,coast,orbit]
+#[wander,seek,avoid,roll,coast,orbit,evade]
 #STRUCTURE
 #timers
 var behaveTimer=0
-export var timers=[.9,.1,.25,.25,.5,1.75]
-export var maxVels=[.2,.5,.4,.75,.75,.75]
-export var maxAccs=[.001,.05,.05,.01,.005,.01]
+export var timers=[1,.1,.25,.25,.5,1.75]
+export var maxVels=[.25,.5,.4,.75,.75,.75]
+export var maxAccs=[.05,.05,.05,.01,.005,.01]
 #status
 var oldState=0
 var state=0
 var newState=0
 #0: wander aimlessy
-export var spreadWander=PI/12
+var spreadWander=PI/12
+export var spreadWanderNormal=PI/12
+export var spreadWanderFlee=PI/2
 #stato 1: seek target
 var target
 var targetData
@@ -37,8 +45,11 @@ var pullOutDist=8
 var fireAngle=PI/16
 var fireBaseTimer=.25
 var fireTimer=0
+var damage1=3
 #stato 2: avoid
 var fleeingDist=60
+var fleeOnCourse=0
+var fleeLimit=50
 #stato 3: roll
 var rollAngle=PI/8
 #stato 4: coast
@@ -46,8 +57,7 @@ var maxCoastAngle=PI/2 #angle to end coasting at
 
 func _ready():
 	rng.randomize()
-	if vel.length()==0:
-		vel.z=-.0001
+	get_node("Detector/CollisionShape").shape.radius=detectionRange
 
 func _physics_process(delta):
 	checkStateChange(delta)
@@ -57,9 +67,9 @@ func _physics_process(delta):
 		vel=vel.normalized()*maxVel
 	var _coll=move_and_collide(vel)
 	#adjust model rotation
-	var variazione=global_transform.origin+vel
-	if variazione.cross(global_transform.basis.y).length()!=0:
-		transform=transform.looking_at(variazione,global_transform.basis.y)
+	if vel.length()>0:
+		var variazione=global_transform.origin+vel
+		transform=transform.looking_at(variazione,transform.basis.y)
 		
 	if Input.is_action_pressed("ui_select"):
 		checkFire()
@@ -69,7 +79,6 @@ func _input(event):
 		if event.pressed:
 			if event.scancode>=49 and event.scancode<=53:
 				queueState(event.scancode-49,0)
-				print(state)
 
 func queueState(status,time):
 	behaveTimer=time
@@ -85,6 +94,9 @@ func nextState():
 	state=newState
 func applyState():
 	if state==0: #wander aimlessy
+#		if oldState==2:
+#			avoid()
+#			queueState(2,0)
 		wander()
 	elif state==1: #seeking target
 		if target!=null:
@@ -99,12 +111,17 @@ func applyState():
 			wander()
 	elif state==2: #avoid target, for fleeing
 		if target!=null:
+			fleeOnCourse=fleeOnCourse+1 #accumulo tempo di fuga
+#			if fleeOnCourse<fleeLimit:#non son fuggito troppo
 			computeTargetData()
-			avoid()
 			if targetData[0]>fleeingDist:#if at safe distance
 				queueState(3,0)#attempts roll immediatly
-			else:
+			elif targetData[0]>fleeingDist/2 and rng.randf()>.5:
 				queueState(2,timers[2])#or keep fleeing
+			avoid()#continuo a fuggire
+#			else:#sto scappando da troppo tempo
+#				fleeOnCourse=0
+#				queueState(0,0)#diversione
 		else:
 			wander()
 	elif state==3: #roll, for spice
@@ -133,11 +150,15 @@ func applyState():
 		else:
 			queueState(0,0)
 
-	
 func wander():
 	maxAcc=maxAccs[state]
 	maxVel=maxVels[state]
-	acc=nav.randomizeDirection(vel,spreadWander)
+	if state==0:
+		spreadWander=spreadWanderNormal
+	else:
+		spreadWander=spreadWanderFlee
+	if vel.length()!=0:
+		acc=nav.randomizeDirection(vel,spreadWander)
 func seek():
 	checkFire()
 	maxAcc=maxAccs[state]
@@ -175,6 +196,8 @@ func checkFire():
 			var pro=Proiettile.instance()
 			boccaDaFuoco.add_child(pro)
 			var dir2=nav.predictiveToTarget(transform.origin,target.transform.origin,target.vel)
+			pro.setBersaglio(0)
+			pro.setDamage(damage1)
 			pro.lancio(dir2)
 		fireTimer=fireBaseTimer
 
@@ -187,9 +210,24 @@ func computeTargetData():
 	else:
 		targetData=[0,0]
 
+func takeDamage(d):
+	life=life-d
+	if life<=0:
+		botto(global_transform.origin)
+
+func botto(pos):
+	var b=burst.instance()
+	b.transform.origin=pos
+	get_tree().current_scene.add_child(b)
+	queue_free()
+
 func _on_Detector_body_entered(body):
 	target=body
-	queueState(1,0)#instantly goes into seeking
+	computeTargetData()
+	if targetData[1]>PI/2:#if is looking away from player
+		queueState(2,0)
+	else:
+		queueState(1,0)#instantly goes into seeking
 
 
 

@@ -1,7 +1,7 @@
 extends Node
-#collection of methods calculating accelerations for different behaviour cases
-#inputs and outputs for positions are supposed to be Vector3
+
 var rng=RandomNumberGenerator.new()
+
 func _ready():
 	rng.randomize()
 

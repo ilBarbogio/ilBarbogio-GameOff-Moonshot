@@ -1,13 +1,15 @@
 extends Spatial
 
+onready var director=get_node("/root/Director"
+)
 #dimensioni
 export var rotVel=.25
-export var distanzaAtmosfera=500
-export var dimensioneTerra=200
-export var distanzaAvvicinamento=700
+var distanzaAtmosfera
+var dimensioneTerra
+var distanzaAvvicinamento
 #parametri
 var zona=0 #0:terra, 1:avvicinamento terra, 2:spazio
-onready var navicella=get_node("../Navicella")
+onready var navicella=get_node("../../Navicella")
 onready var animatore=get_node("AnimatoreNebuloso")
 #sfera nebulosa
 onready var sfera=get_child(0)
@@ -21,6 +23,9 @@ var numeroNb
 var actHNb
 
 func _ready():
+	distanzaAtmosfera=director.hAtmosferaEstesaTerra
+	dimensioneTerra=director.hAtmosferaContrattaTerra
+	distanzaAvvicinamento=director.distanzaAvvicinamentoTerra
 	#sfera nebulosa
 	sfera.global_scale(Vector3(distanzaAtmosfera,distanzaAtmosfera,distanzaAtmosfera))
 	animatore.play("RotazioneStratoNebuloso")

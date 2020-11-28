@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sparo3.wav-c4fde8a2a65e38ff92ad3b30b04d85af.sample"
+
+[deps]
+
+source_file="res://sounds/sparo3.wav"
+dest_files=[ "res://.import/sparo3.wav-c4fde8a2a65e38ff92ad3b30b04d85af.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

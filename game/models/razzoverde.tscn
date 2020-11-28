@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://models/razzoverde.escn" type="PackedScene" id=1]
+
+[sub_resource type="SpatialMaterial" id=1]
+params_cull_mode = 1
+
+[sub_resource type="SpatialMaterial" id=2]
+params_cull_mode = 1
+albedo_color = Color( 0.0313726, 1, 0, 1 )
+
+[sub_resource type="SpatialMaterial" id=3]
+params_cull_mode = 1
+albedo_color = Color( 0, 0, 0, 1 )
+
+[node name="razzoverde" instance=ExtResource( 1 )]
+
+[node name="missile001" parent="." index="0"]
+material/0 = SubResource( 1 )
+material/1 = SubResource( 2 )
+material/2 = SubResource( 3 )

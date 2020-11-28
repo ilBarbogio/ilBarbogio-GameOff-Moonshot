@@ -1,22 +1,49 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://models/terra.escn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/TerrenoBasso.gd" type="Script" id=2]
+[ext_resource path="res://models/emmensteroide.escn" type="PackedScene" id=3]
+[ext_resource path="res://models/parmisansteroide.escn" type="PackedScene" id=4]
+[ext_resource path="res://models/goudasteroide.escn" type="PackedScene" id=5]
 
+[sub_resource type="PhysicsMaterial" id=1]
+bounce = 1.0
 
+[sub_resource type="SphereShape" id=2]
+radius = 80.0
 
-[sub_resource type="SpatialMaterial" id=1]
+[sub_resource type="SpatialMaterial" id=3]
 flags_transparent = true
 vertex_color_use_as_albedo = true
 
-[sub_resource type="SphereMesh" id=2]
-material = SubResource( 1 )
+[sub_resource type="SphereMesh" id=4]
+material = SubResource( 3 )
 radial_segments = 8
 rings = 4
 
-[sub_resource type="Gradient" id=3]
+[sub_resource type="Gradient" id=5]
 colors = PoolColorArray( 0.628906, 0, 0, 1, 1, 0.960784, 0, 0.352941 )
 
-[node name="TerrenoBasso" type="Spatial"]
+[sub_resource type="SphereShape" id=6]
+radius = 10.0
+
+[sub_resource type="SpatialMaterial" id=7]
+flags_transparent = true
+albedo_color = Color( 0.792157, 1, 0.717647, 0.313726 )
+
+[sub_resource type="SphereMesh" id=8]
+material = SubResource( 7 )
+radius = 10.0
+height = 20.0
+
+[node name="TerrenoBasso" type="StaticBody"]
+collision_layer = 8
+collision_mask = 0
+physics_material_override = SubResource( 1 )
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 2 )
 
 [node name="terra" parent="." instance=ExtResource( 1 )]
 
@@ -27,12 +54,12 @@ speed_scale = 0.5
 explosiveness = 0.43
 randomness = 0.68
 lifetime_randomness = 0.43
-mesh = SubResource( 2 )
+mesh = SubResource( 4 )
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 10.0
 initial_velocity_random = 0.53
 damping = 5.0
-color_ramp = SubResource( 3 )
+color_ramp = SubResource( 5 )
 
 [node name="Vulcano2" type="CPUParticles" parent="."]
 transform = Transform( -0.598017, 0.801484, 0, -0.801484, -0.598017, 0, 0, 0, 1, 9.34263, -83.1355, 26.235 )
@@ -41,9 +68,58 @@ speed_scale = 0.5
 explosiveness = 0.43
 randomness = 0.68
 lifetime_randomness = 0.43
-mesh = SubResource( 2 )
+mesh = SubResource( 4 )
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 10.0
 initial_velocity_random = 0.53
 damping = 5.0
-color_ramp = SubResource( 3 )
+color_ramp = SubResource( 5 )
+
+[node name="asteroidi" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 81.9849, 0 )
+
+[node name="emmensteroide1" parent="asteroidi" instance=ExtResource( 3 )]
+transform = Transform( -0.154056, 0.00880998, 0.988023, 0.986758, -0.0499792, 0.154304, 0.05074, 0.998711, -0.000993742, -14.3022, -3.16895, 6.03737 )
+visible = false
+
+[node name="emmensteroide2" parent="asteroidi" instance=ExtResource( 3 )]
+transform = Transform( -0.182044, 0.553863, -0.812462, 0.982113, 0.14285, -0.122674, 0.0481157, -0.820261, -0.569961, -14.3573, -1.73925, 5.39614 )
+visible = false
+
+[node name="emmensteroide3" parent="asteroidi" instance=ExtResource( 3 )]
+transform = Transform( -0.331395, -0.942339, 0.0466278, 0.334587, -0.163586, -0.928057, 0.882173, -0.291952, 0.369506, -15.1153, -0.661499, 8.60012 )
+visible = false
+
+[node name="parmisansteroide1" parent="asteroidi" instance=ExtResource( 4 )]
+transform = Transform( 0.172124, -0.0504832, 0.983781, 0.941804, -0.28431, -0.179369, 0.288754, 0.957402, -0.00139135, 17.0906, -3.01203, 0 )
+visible = false
+
+[node name="parmisansteroide2" parent="asteroidi" instance=ExtResource( 4 )]
+transform = Transform( -0.461196, 0.884067, -0.0756576, 0.483622, 0.178971, -0.856784, -0.743914, -0.431735, -0.510095, 15.3249, -2.38498, 2.88337 )
+visible = false
+
+[node name="parmisansteroide3" parent="asteroidi" instance=ExtResource( 4 )]
+transform = Transform( -0.980275, 0.0702657, -0.184728, 0.178717, -0.083956, -0.980312, -0.0843913, -0.993989, 0.0697423, 15.3249, -3.07056, 7.16222 )
+visible = false
+
+[node name="goudasteroide1" parent="asteroidi" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 0.983603, 0.180347, 0, -0.180347, 0.983603, 0, -2.77343, -15.489 )
+visible = false
+
+[node name="goudasteroide2" parent="asteroidi" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 0.983603, 0.180347, 0, -0.180347, 0.983603, -0.378494, -1.02482, -15.3741 )
+visible = false
+
+[node name="RefillArea" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 90.1898, 0 )
+monitorable = false
+collision_layer = 0
+
+[node name="CollisionShape" type="CollisionShape" parent="RefillArea"]
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="RefillArea"]
+mesh = SubResource( 8 )
+material/0 = null
+[connection signal="body_entered" from="RefillArea" to="." method="_on_RefillArea_body_entered"]
+[connection signal="body_exited" from="RefillArea" to="." method="_on_RefillArea_body_exited"]
